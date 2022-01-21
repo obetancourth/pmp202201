@@ -12,15 +12,35 @@ import java.lang.Math;
  * @author obetancourth
  */
 public class Main {
-    private static Scanner entradaTeclado = new Scanner(System.in);;
+    private static Scanner entradaTeclado = new Scanner(System.in);
     
     public static void main ( String[] args ) {
-        // entradaTeclado = new Scanner(System.in);
-        // System.out.println("Hola Mundo!!!");
-        // System.out.println("Escriba su nombre");
-        // String nombre = entradaTeclado.nextLine();
-        // System.out.println("Hola " + nombre);
-        guessTheNumber();
+        // guessTheNumber();
+        UIUtilidades.encabezado("Gestión de Productos");
+        String menuOption = "L";
+        while (!menuOption.contentEquals("S")){
+            switch (menuOption) {
+                case "L":
+                    UIUtilidades.print("Listado");
+                    break;
+                case "I":
+                    UIUtilidades.print("Insertar Nuevo");
+                    break;
+                case "A":
+                    UIUtilidades.print("Actualizar");
+                    break;
+                case "E":
+                    UIUtilidades.print("Eliminar");
+                    break;
+                case "D":
+                    UIUtilidades.print("Mostrar Detalle");
+                    break;
+                default:
+                    UIUtilidades.print("Opción no encontrada!!!");
+            }
+            UIUtilidades.menu();
+            menuOption = entradaTeclado.nextLine().toUpperCase();
+        }
     }
     
     private static boolean guessTheNumber() {
