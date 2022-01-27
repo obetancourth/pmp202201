@@ -56,6 +56,11 @@ public class Main {
         nuevoProducto.setCantidad(Integer.parseInt(UIUtilidades.capturarCampo(entradaTeclado, "Cantidad", "10")));
         nuevoProducto.setObservacion(UIUtilidades.capturarCampo(entradaTeclado, "Observación", ""));
         UIUtilidades.separador();
+        int insertado = model.agregarProducto(nuevoProducto);
+        if (insertado > 0) {
+            UIUtilidades.print("Producto Agregado Satisfactoriamente!");
+        }
+        UIUtilidades.separador();
     }
     
     private static boolean guessTheNumber() {

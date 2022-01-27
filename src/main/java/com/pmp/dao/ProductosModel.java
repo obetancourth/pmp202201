@@ -7,6 +7,11 @@ package com.pmp.dao;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+
+import java.util.ArrayList;
+
 /**
  *
  * @author obetancourth
@@ -37,6 +42,48 @@ public class ProductosModel {
             int resultado = comando.executeUpdate(sqlCreateTable);
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
+        }
+    }
+    
+    public ArrayList<Producto> obtenerProductos () {
+        try {
+            ArrayList productos = new ArrayList<Producto>();
+            Statement comandoSQL = _conexion.createStatement();
+            ResultSet registroEnTabla = comandoSQL.executeQuery("SELECT * FROM productos;");
+            while (registroEnTabla.next()) {
+                Producto productoActual = new Producto();
+                productoActual.setId( registroEnTabla.getInt("id") );
+                productoActual.setNombre( registroEnTabla.getString("nombre"));
+                productoActual.setSku(registroEnTabla.getString("sku"));
+                productoActual.setObservacion( registroEnTabla.getString("observacion"));
+                productoActual.setCantidad( registroEnTabla.getInt("cantidad"));
+                productoActual.setPrecio( registroEnTabla.getDouble("precio"));
+                
+                productos.add(productoActual);
+            }
+            return productos;
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return new ArrayList<Producto>();
+        }
+    }
+    
+    public int agregarProducto (Producto nuevoProducto) {
+        try {
+            String insertSql = "INSERT INTO productos (nombre, sku, observacion, cantidad, precio) values (?, ?, ?, ?, ?);";
+            PreparedStatement comandoSQL = _conexion.prepareStatement(insertSql);
+            comandoSQL.setString(1, nuevoProducto.getNombre());
+            comandoSQL.setString(2, nuevoProducto.getSku());
+            comandoSQL.setString(3, nuevoProducto.getObservacion());
+            comandoSQL.setInt(4, nuevoProducto.getCantidad());
+            comandoSQL.setDouble(5, nuevoProducto.getPrecio());
+            
+            int RegistroAfectados  = comandoSQL.executeUpdate();
+            comandoSQL.close();
+            return RegistroAfectados;
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return 0;
         }
     }
     
