@@ -7,13 +7,16 @@ package com.pmp.pmp221productos;
 
 import java.util.Scanner;
 import java.lang.Math;
+
+import com.pmp.dao.Producto;
+import com.pmp.dao.ProductosModel;
 /**
  *
  * @author obetancourth
  */
 public class Main {
     private static Scanner entradaTeclado = new Scanner(System.in);
-    
+    private static ProductosModel model = new ProductosModel();
     public static void main ( String[] args ) {
         // guessTheNumber();
         UIUtilidades.encabezado("Gestión de Productos");
@@ -24,7 +27,8 @@ public class Main {
                     UIUtilidades.print("Listado");
                     break;
                 case "I":
-                    UIUtilidades.print("Insertar Nuevo");
+                    // UIUtilidades.print("Insertar Nuevo");
+                    insertarUnProducto();
                     break;
                 case "A":
                     UIUtilidades.print("Actualizar");
@@ -41,6 +45,17 @@ public class Main {
             UIUtilidades.menu();
             menuOption = entradaTeclado.nextLine().toUpperCase();
         }
+    }
+    
+    private static void insertarUnProducto() {
+        Producto nuevoProducto = new Producto();
+        UIUtilidades.encabezado("Nuevo Producto");
+        nuevoProducto.setSku(UIUtilidades.capturarCampo(entradaTeclado, "SKU", "PRD001"));
+        nuevoProducto.setNombre(UIUtilidades.capturarCampo(entradaTeclado, "Nombre", "Producto XYZ"));
+        nuevoProducto.setPrecio(Double.parseDouble(UIUtilidades.capturarCampo(entradaTeclado, "Precio", "100.00")));
+        nuevoProducto.setCantidad(Integer.parseInt(UIUtilidades.capturarCampo(entradaTeclado, "Cantidad", "10")));
+        nuevoProducto.setObservacion(UIUtilidades.capturarCampo(entradaTeclado, "Observación", ""));
+        UIUtilidades.separador();
     }
     
     private static boolean guessTheNumber() {
