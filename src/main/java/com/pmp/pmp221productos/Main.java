@@ -7,6 +7,7 @@ package com.pmp.pmp221productos;
 
 import java.util.Scanner;
 import java.lang.Math;
+import java.util.ArrayList;
 
 import com.pmp.dao.Producto;
 import com.pmp.dao.ProductosModel;
@@ -24,7 +25,8 @@ public class Main {
         while (!menuOption.contentEquals("S")){
             switch (menuOption) {
                 case "L":
-                    UIUtilidades.print("Listado");
+                    //UIUtilidades.print("Listado");
+                    mostrarListado();
                     break;
                 case "I":
                     // UIUtilidades.print("Insertar Nuevo");
@@ -46,7 +48,14 @@ public class Main {
             menuOption = entradaTeclado.nextLine().toUpperCase();
         }
     }
-    
+    private static void mostrarListado() {
+        UIUtilidades.printEncabezadoTabla();
+        ArrayList<Producto> productos = model.obtenerProductos();
+        for (int i = 0; i < productos.size(); i++) {
+            UIUtilidades.print(productos.get(i).getRow());
+            UIUtilidades.separador();
+        }
+    }
     private static void insertarUnProducto() {
         Producto nuevoProducto = new Producto();
         UIUtilidades.encabezado("Nuevo Producto");

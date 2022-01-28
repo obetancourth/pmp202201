@@ -36,4 +36,9 @@ public class UIUtilidades {
         }
         return input;
     }
+    public static void printEncabezadoTabla () {
+        separador();
+        print(String.format("%s\t%s\t%s\t%s", "ID", "SKU", "PRODUCTO", "PRECIO"));
+        separador();
+    }
 }

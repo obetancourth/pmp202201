@@ -95,6 +95,10 @@ public class Producto {
         this._id = _id;
     }
     
+    public String getRow() {
+        return String.format("%d\t%s\t%s\t%f", _id, _sku, _nombre, _precio);
+    }
+    
     private String _sku;
     private String _nombre;
     private double _precio;

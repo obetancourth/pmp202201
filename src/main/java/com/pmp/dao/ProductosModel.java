@@ -68,6 +68,28 @@ public class ProductosModel {
         }
     }
     
+    public Producto obtenerProducto (int id) {
+        try {
+            PreparedStatement comandoSQL = _conexion.prepareStatement("SELECT * FROM productos where id = ?;");
+            comandoSQL.setInt(1, id);
+            ResultSet registroEnTabla = comandoSQL.executeQuery();
+            Producto productoActual = new Producto();
+            while (registroEnTabla.next()) {
+                productoActual.setId( registroEnTabla.getInt("id") );
+                productoActual.setNombre( registroEnTabla.getString("nombre"));
+                productoActual.setSku(registroEnTabla.getString("sku"));
+                productoActual.setObservacion( registroEnTabla.getString("observacion"));
+                productoActual.setCantidad( registroEnTabla.getInt("cantidad"));
+                productoActual.setPrecio( registroEnTabla.getDouble("precio"));
+                break;
+            }
+            return productoActual;
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return null;
+        }
+    }
+    
     public int agregarProducto (Producto nuevoProducto) {
         try {
             String insertSql = "INSERT INTO productos (nombre, sku, observacion, cantidad, precio) values (?, ?, ?, ?, ?);";
@@ -86,5 +108,42 @@ public class ProductosModel {
             return 0;
         }
     }
+    
+    public int actualizarProducto (Producto updateProducto) {
+        try {
+            String updateSql = "UPDATE productos SET nombre=?, sku=?, observacion=?, cantidad=?, precio=? where id =?;";
+            PreparedStatement comandoSQL = _conexion.prepareStatement(updateSql);
+            comandoSQL.setString(1, updateProducto.getNombre());
+            comandoSQL.setString(2, updateProducto.getSku());
+            comandoSQL.setString(3, updateProducto.getObservacion());
+            comandoSQL.setInt(4, updateProducto.getCantidad());
+            comandoSQL.setDouble(5, updateProducto.getPrecio());
+            comandoSQL.setInt(6, updateProducto.getId());
+            
+            int RegistroAfectados  = comandoSQL.executeUpdate();
+            comandoSQL.close();
+            return RegistroAfectados;
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return 0;
+        }
+    }
+    
+    public int deleteProducto (int id) {
+        try {
+            String deleteSql = "DELETE FROM productos where id =?;";
+            PreparedStatement comandoSQL = _conexion.prepareStatement(deleteSql);
+            comandoSQL.setInt(1, id);
+            
+            int RegistroAfectados  = comandoSQL.executeUpdate();
+            comandoSQL.close();
+            return RegistroAfectados;
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return 0;
+        }
+    }
+    
+   
     
 }
